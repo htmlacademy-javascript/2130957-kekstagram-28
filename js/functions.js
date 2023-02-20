@@ -17,8 +17,12 @@ isPalindrome();
 
 const getNumber = function (toNumber) {
   toNumber = toNumber.replace(/\D/g, '');
-  toNumber = Number(toNumber);
-  return toNumber;
+  if (toNumber === '') {
+    return NaN;
+  } else {
+    toNumber = Number(toNumber);
+    return toNumber;
+  }
 };
 getNumber();
 
