@@ -23,7 +23,7 @@ const createComment = () => ({
   name: getRandomArrayElement(FIRST_NAMES)
 });
 
-const createWizard = () => ({
+const createPicturePost = () => ({
   id: generatePhotoId(),
   url: `photos/${generateUrl()}.jpg`,
   likes: generateLikes(),
@@ -31,6 +31,6 @@ const createWizard = () => ({
   comments: Array.from({length: getRandomInteger(1,MAX_COMMENTS)}, createComment)
 });
 
-const similarWizards = Array.from({length: PHOTOS_COUNT}, createWizard);
+const createPicturePosts = () => Array.from({length: PHOTOS_COUNT}, createPicturePost);
 
-export {similarWizards};
+export {createPicturePosts};
