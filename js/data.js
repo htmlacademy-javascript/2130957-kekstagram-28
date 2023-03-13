@@ -1,59 +1,36 @@
 import {createRandomIdFromRangeGenerator} from './unique-random-generator.js';
 import {getRandomArrayElement} from './random-arrow-element.js';
-import {getRandomNumber} from './random-number.js';
+import {getRandomInteger} from './random-integer.js';
+import {MAX_COMMENTS} from './consts.js';
+import {AVATAR_COUNT} from './consts.js';
+import {MIN_LIKES} from './consts.js';
+import {MAX_LIKES} from './consts.js';
+import {MAX_COMMENT_ID} from './consts.js';
+import {PHOTOS_COUNT} from './consts.js';
+import {DESCRIPTIONS} from './consts.js';
+import {MESSAGES} from './consts.js';
+import {FIRST_NAMES} from './consts.js';
 
-const PHOTOS_COUNT = 25;
-const DESCRIPTIONS = [
-  'Фотография на фоне гор',
-  'Фотография на фоне моря',
-  'Фотография в городе',
-  'Селфи на фоне деревьев',
-  'Кот сидит на балконе',
-  'Группа людей в аудитории',
-  'Фотография еды в кафе',
-  'Неопознанный летающий объект',
-  'Закат солнца на фоне реки',
-  'Быт в деревне'
-];
-const MESSAGES = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-];
-const FIRST_NAMES = [
-  'Олег',
-  'Артём',
-  'Вася',
-  'Пётр',
-  'Саша',
-  'Алёна',
-  'Ольга',
-  'Софья',
-  'Наталья'
-];
 const generatePhotoId = createRandomIdFromRangeGenerator(1, PHOTOS_COUNT);
 const generateUrl = createRandomIdFromRangeGenerator(1, PHOTOS_COUNT);
-const generateLikes = createRandomIdFromRangeGenerator(15, 200);
-const generateCommentId = createRandomIdFromRangeGenerator(1, 200);
+const generateLikes = createRandomIdFromRangeGenerator(MIN_LIKES, MAX_LIKES);
+const generateCommentId = createRandomIdFromRangeGenerator(1, MAX_COMMENT_ID);
 
 const createComment = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar-${getRandomNumber(5) + 1}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1,AVATAR_COUNT)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(FIRST_NAMES)
 });
 
-const createWizard = () => ({
+const createPicturePost = () => ({
   id: generatePhotoId(),
   url: `photos/${generateUrl()}.jpg`,
   likes: generateLikes(),
   description: getRandomArrayElement(DESCRIPTIONS),
-  comments: Array.from({length: getRandomNumber(1) + 1}, createComment)
+  comments: Array.from({length: getRandomInteger(1,MAX_COMMENTS)}, createComment)
 });
 
-const similarWizards = Array.from({length: PHOTOS_COUNT}, createWizard);
+const createPicturePosts = () => Array.from({length: PHOTOS_COUNT}, createPicturePost);
 
-export {similarWizards};
+export {createPicturePosts};

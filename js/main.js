@@ -1,4 +1,3 @@
-import {similarWizards} from './data.js';
+import {fillPictureContainer} from './miniature.js';
 
-/* eslint-disable-next-line no-console */
-console.log(similarWizards);
+fillPictureContainer();
