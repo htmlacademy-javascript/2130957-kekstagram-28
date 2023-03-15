@@ -1,3 +1,2 @@
-import {fillPictureContainer} from './miniature.js';
-
-fillPictureContainer();
+import './miniature.js';
+import './popup.js';
