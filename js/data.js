@@ -32,5 +32,7 @@ const createPicturePost = () => ({
 });
 
 const createPicturePosts = () => Array.from({length: PHOTOS_COUNT}, createPicturePost);
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 export {createPicturePosts};
+export {isEscapeKey};
