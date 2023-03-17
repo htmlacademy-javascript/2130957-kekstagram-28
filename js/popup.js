@@ -13,32 +13,13 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 const commentsCount = bigPicture.querySelector('.comments-count');
 const socialComments = bigPicture.querySelector('.social__comments');
 const socialComment = bigPicture.querySelector('.social__comment');
+const targetParent = '.picture';
 
 const similarCommentFragment = document.createDocumentFragment();
 const commentTemplate = socialComment.cloneNode(true);
 
-socialCommentCount.classList.add('hidden');
-commentsLoader.classList.add('hidden');
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeBigPicture();
-  }
-};
-
-const onPictureClick = (evt) => {
-  const target = evt.target;
-  const picture = target.closest('.picture');
-  evt.preventDefault();
-  if (!picture) {
-    return;
-  }
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-  const currentPost = picturePosts.find(({id}) => (id).toString() === picture.dataset.id);
-  const {url, description, likes, comments} = currentPost;
+const renderBigPicture = (array) => {
+  const {url, description, likes, comments} = array;
   bigPictureImg.src = url;
   bigPictureImg.alt = description;
   likesCount.textContent = likes;
@@ -53,6 +34,27 @@ const onPictureClick = (evt) => {
   });
   const fillComments = () => socialComments.appendChild(similarCommentFragment);
   fillComments();
+};
+
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeBigPicture();
+  }
+};
+
+const onPictureClick = (evt) => {
+  const target = evt.target;
+  const picture = target.closest(targetParent);
+  if (!picture) {
+    return;
+  }
+  evt.preventDefault();
+  bigPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
+  const currentPost = picturePosts.find(({id}) => (id).toString() === picture.dataset.id);
+  renderBigPicture(currentPost);
 };
 
 pictures.addEventListener('click', onPictureClick);
