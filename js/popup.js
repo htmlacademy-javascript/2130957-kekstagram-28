@@ -32,15 +32,12 @@ const renderBigPicture = (array) => {
     loadingComments += 5;
     socialComments.innerHTML = '';
     const commentsToShow = Math.min(comments.length, loadingComments);
-    console.log('commentsToShow: ' + commentsToShow);
-    console.log('loadingComments: ' + loadingComments);
     for (let i = 0; i < commentsToShow; i++) {
       const commentElement = commentTemplate.cloneNode(true);
       commentElement.querySelector('.social__picture').src = comments[i].avatar;
       commentElement.querySelector('.social__text').textContent = comments[i].message;
       socialCommentCount.textContent = `${commentsToShow} из ${comments.length} комментариев`;
       similarCommentFragment.appendChild(commentElement);
-      console.log(similarCommentFragment);
     }
     const fillComments = () => socialComments.appendChild(similarCommentFragment);
     fillComments();
@@ -53,7 +50,7 @@ const renderBigPicture = (array) => {
     }
   };
   renderComments();
- };
+};
 
 //Закрытие попапа кнопкой Esc
 const onDocumentKeydown = (evt) => {
