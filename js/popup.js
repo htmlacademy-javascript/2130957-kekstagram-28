@@ -39,21 +39,21 @@ const renderBigPicture = (array) => {
       commentElement.querySelector('.social__picture').src = comments[i].avatar;
       commentElement.querySelector('.social__text').textContent = comments[i].message;
       socialCommentCount.textContent = `${commentsToShow} из ${comments.length} комментариев`;
-      if (commentsToShow === comments.length) {
-        commentsLoader.classList.add('hidden');
-      } else {
-        commentsLoader.classList.remove('hidden');
-      }
       similarCommentFragment.appendChild(commentElement);
       console.log(similarCommentFragment);
     }
     const fillComments = () => socialComments.appendChild(similarCommentFragment);
     fillComments();
+    if (commentsToShow === comments.length) {
+      commentsLoader.classList.add('hidden');
+      commentsLoader.removeEventListener('click', renderComments);
+    } else {
+      commentsLoader.classList.remove('hidden');
+      commentsLoader.addEventListener('click', renderComments);
+    }
   };
   renderComments();
-  commentsLoader.removeEventListener('click', renderComments);
-  commentsLoader.addEventListener('click', renderComments);
-};
+ };
 
 //Закрытие попапа кнопкой Esc
 const onDocumentKeydown = (evt) => {
