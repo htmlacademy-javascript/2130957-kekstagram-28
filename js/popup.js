@@ -18,39 +18,46 @@ const targetParent = '.picture';
 const commentTemplate = socialComment.cloneNode(true);
 const similarCommentFragment = document.createDocumentFragment();
 
-//Рендер большого изображения, описания, лайков, комментариев
+//Рендер большого изображения, описания, лайков
 const renderBigPicture = (array) => {
   similarCommentFragment.innerHTML = '';
-  let loadingComments = 0;
+  socialComments.innerHTML = '';
   const {url, description, likes, comments} = array;
   bigPictureImg.src = url;
   bigPictureImg.alt = description;
   likesCount.textContent = likes;
   socialCaption.textContent = description;
   commentsCount.textContent = comments.length.toString();
-  const renderComments = () => {
-    loadingComments += 5;
-    socialComments.innerHTML = '';
-    const commentsToShow = Math.min(comments.length, loadingComments);
-    for (let i = 0; i < commentsToShow; i++) {
-      const commentElement = commentTemplate.cloneNode(true);
-      commentElement.querySelector('.social__picture').src = comments[i].avatar;
-      commentElement.querySelector('.social__text').textContent = comments[i].message;
-      socialCommentCount.textContent = `${commentsToShow} из ${comments.length} комментариев`;
-      similarCommentFragment.appendChild(commentElement);
-    }
-    const fillComments = () => socialComments.appendChild(similarCommentFragment);
-    fillComments();
-    if (commentsToShow === comments.length) {
-      commentsLoader.classList.add('hidden');
-      commentsLoader.removeEventListener('click', renderComments);
-    } else {
-      commentsLoader.classList.remove('hidden');
-      commentsLoader.addEventListener('click', renderComments);
-    }
-  };
-  renderComments();
+  renderComments(comments, 0);
 };
+
+//Рендер комментариев, загрузка новых комментариев по клику на "Загрузить еще"
+function renderComments (commentsArray, loadingComments) {
+  loadingComments += 5;
+  const commentsToShow = Math.min(commentsArray.length, loadingComments);
+  const newComments = commentsArray.slice(loadingComments - 5, commentsToShow);
+  for (let i = 0; i < newComments.length; i++) {
+    const commentElement = commentTemplate.cloneNode(true);
+    commentElement.querySelector('.social__picture').src = newComments[i].avatar;
+    commentElement.querySelector('.social__text').textContent = newComments[i].message;
+    similarCommentFragment.appendChild(commentElement);
+  }
+  socialCommentCount.textContent = `${commentsToShow} из ${commentsArray.length} комментариев`;
+  socialComments.appendChild(similarCommentFragment);
+
+  if (commentsToShow === commentsArray.length) {
+    commentsLoader.classList.add('hidden');
+  } else {
+    commentsLoader.classList.remove('hidden');
+    commentsLoader.addEventListener('click', OnMoreCommentsClick);
+  }
+
+  function OnMoreCommentsClick () {
+    renderComments(commentsArray, loadingComments);
+    commentsLoader.removeEventListener('click', OnMoreCommentsClick);
+  }
+}
+
 
 //Закрытие попапа кнопкой Esc
 const onDocumentKeydown = (evt) => {
