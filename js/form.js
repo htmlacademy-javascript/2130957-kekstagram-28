@@ -7,6 +7,9 @@ const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCancel = imgUploadOverlay.querySelector('#upload-cancel');
 const textHashtags = imgUploadOverlay.querySelector('.text__hashtags');
 const textDescription = imgUploadOverlay.querySelector('.text__description');
+const MAX_AMOUNT_HASHTAGS = 5;
+const MAX_AMOUNT_COMMENT = 140;
+const CORRECT_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -14,6 +17,7 @@ const pristine = new Pristine(imgUploadForm, {
   errorTextClass: 'text__error'
 });
 
+//Закрытие модального окна нажатием Esc
 const onDocumentKeydown = (evt) => {
   if (evt.target === textHashtags || evt.target === textDescription) {
     evt.stopPropagation();
@@ -24,12 +28,13 @@ const onDocumentKeydown = (evt) => {
     }
   }
 };
+//Функция, открывающая модальное окно
 const onUploadFile = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
-
+//Функция, закрывающая модальное окно
 function closeUploadOverlay() {
   imgUploadForm.reset();
   pristine.reset();
@@ -37,11 +42,12 @@ function closeUploadOverlay() {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 }
-
+//Событие, отслеживающее загрузку изображения
 inputUploadFile.addEventListener('change', onUploadFile);
+//Закрытие модального окна по клику
 uploadCancel.addEventListener('click', closeUploadOverlay);
 
-const validateComment = (value) => value.length <= 10;
+const validateComment = (value) => value.length <= MAX_AMOUNT_COMMENT;
 
 pristine.addValidator(
   textDescription,
@@ -49,16 +55,41 @@ pristine.addValidator(
   'Длина комментария не может составлять больше 140 символов'
 );
 
-const countHashTags = (value) => value.length <= 5;
-const validateHashTags = (value) => {
-  const hashTags = value.replace(/ +/g, ' ').trim().split(' ');
-  return countHashTags(hashTags);
+const getHashTags = (value) => value.replace(/ +/g, ' ').trim().split(' ');
+//Функция, проверяющая максимальное количество хэштегов
+const countHashTags = (value) => {
+  const hashTags = getHashTags(value);
+  return hashTags.length <= MAX_AMOUNT_HASHTAGS;
+};
+//Функция, проверяющая правильность написания хэштега
+const checkSpellingHashtag = (value) => {
+  const hashTags = getHashTags(value);
+  return hashTags.every((tag) => CORRECT_HASHTAG.test(tag));
+};
+
+//Функция на проверку дубликатов хэштегов
+const checkDuplicateHashTags = (value) => {
+  const hashTags = getHashTags(value);
+  const lowerCaseHashTags = hashTags.map((hashTag) => hashTag.toLowerCase());
+  return lowerCaseHashTags.length === new Set(lowerCaseHashTags).size;
 };
 
 pristine.addValidator(
   textHashtags,
-  validateHashTags,
+  countHashTags,
   'Нельзя добавить больше 5 хэштегов'
+);
+
+pristine.addValidator(
+  textHashtags,
+  checkSpellingHashtag,
+  'Хэштег должен начинаться с # и не может содержать пробелы, спецсимволы, символы пунктуации и смайлы'
+);
+
+pristine.addValidator(
+  textHashtags,
+  checkDuplicateHashTags,
+  'Хэштеги не должны повторяться'
 );
 
 imgUploadForm.addEventListener('submit', (evt) => {
