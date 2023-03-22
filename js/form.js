@@ -47,6 +47,7 @@ inputUploadFile.addEventListener('change', onUploadFile);
 //Закрытие модального окна по клику
 uploadCancel.addEventListener('click', closeUploadOverlay);
 
+//Функция, проверяющая лимит по символам у комментария
 const validateComment = (value) => value.length <= MAX_AMOUNT_COMMENT;
 
 pristine.addValidator(
@@ -61,18 +62,6 @@ const countHashTags = (value) => {
   const hashTags = getHashTags(value);
   return hashTags.length <= MAX_AMOUNT_HASHTAGS;
 };
-//Функция, проверяющая правильность написания хэштега
-const checkSpellingHashtag = (value) => {
-  const hashTags = getHashTags(value);
-  return hashTags.every((tag) => CORRECT_HASHTAG.test(tag));
-};
-
-//Функция на проверку дубликатов хэштегов
-const checkDuplicateHashTags = (value) => {
-  const hashTags = getHashTags(value);
-  const lowerCaseHashTags = hashTags.map((hashTag) => hashTag.toLowerCase());
-  return lowerCaseHashTags.length === new Set(lowerCaseHashTags).size;
-};
 
 pristine.addValidator(
   textHashtags,
@@ -80,11 +69,24 @@ pristine.addValidator(
   'Нельзя добавить больше 5 хэштегов'
 );
 
+//Функция, проверяющая правильность написания хэштега
+const checkSpellingHashtag = (value) => {
+  const hashTags = getHashTags(value);
+  return hashTags.every((hashTag) => CORRECT_HASHTAG.test(hashTag));
+};
+
 pristine.addValidator(
   textHashtags,
   checkSpellingHashtag,
   'Хэштег должен начинаться с # и не может содержать пробелы, спецсимволы, символы пунктуации и смайлы'
 );
+
+//Функция на проверку дубликатов хэштегов
+const checkDuplicateHashTags = (value) => {
+  const hashTags = getHashTags(value);
+  const lowerCaseHashTags = hashTags.map((hashTag) => hashTag.toLowerCase());
+  return lowerCaseHashTags.length === new Set(lowerCaseHashTags).size;
+};
 
 pristine.addValidator(
   textHashtags,
