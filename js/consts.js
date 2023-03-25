@@ -44,6 +44,7 @@ const FIRST_NAMES = [
   'Софья',
   'Наталья'
 ];
+const body = document.querySelector('body');
 
 export {MAX_COMMENTS};
 export {AVATAR_COUNT};
@@ -54,3 +55,4 @@ export {PHOTOS_COUNT};
 export {DESCRIPTIONS};
 export {MESSAGES};
 export {FIRST_NAMES};
+export {body};

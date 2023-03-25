@@ -12,6 +12,15 @@
 
 @font-face {
   font-family: "Open Sans";
+  src: url("../fonts/OpenSans-Semibold.woff2") format("woff2"),
+  url("../fonts/OpenSans-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
   src: url("../fonts/OpenSans-Regular.woff2") format("woff2"),
       url("../fonts/OpenSans-Regular.woff") format("woff");
   font-weight: 400;
@@ -684,9 +693,7 @@ main {
 
 .text__hashtags {
   width: 450px;
-
-  margin: 0 auto;
-  margin-bottom: 20px;
+  margin: 0 auto 3px;
   padding: 5px 10px;
 
   font-family: "Open Sans", "Arial", sans-serif;
@@ -700,7 +707,7 @@ main {
   width: 450px;
   height: 100px;
 
-  margin: 0 auto;
+  margin: 20px auto 0;
   padding: 15px 10px;
 
   font-family: "Open Sans", "Arial", sans-serif;
@@ -1407,4 +1414,10 @@ main {
 
 .hidden {
   display: none;
+}
+
+.text__error {
+  margin-top: 5px;
+  color: #f96464;
+  font-weight: 600;
 }
