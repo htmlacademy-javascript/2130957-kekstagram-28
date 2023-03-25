@@ -5,6 +5,8 @@ import './scale.js';
 import './effects.js';
 import {imgUploadForm} from './consts.js';
 import {resetEffect} from './effects.js';
+import {showSuccess} from './success.js';
+import {showError} from './error.js';
 
 const inputUploadFile = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
@@ -106,5 +108,10 @@ pristine.addValidator(
 
 imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  if (pristine.validate()) {
+    showSuccess();
+    closeUploadOverlay();
+  } else {
+    showError();
+  }
 });

@@ -12,15 +12,6 @@
 
 @font-face {
   font-family: "Open Sans";
-  src: url("../fonts/OpenSans-Semibold.woff2") format("woff2"),
-  url("../fonts/OpenSans-Semibold.woff") format("woff");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Open Sans";
   src: url("../fonts/OpenSans-Regular.woff2") format("woff2"),
       url("../fonts/OpenSans-Regular.woff") format("woff");
   font-weight: 400;
@@ -1419,5 +1410,5 @@ main {
 .text__error {
   margin-top: 5px;
   color: #f96464;
-  font-weight: 600;
+  text-shadow: 1px 0 0 #f96464;
 }
