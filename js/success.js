@@ -21,12 +21,14 @@ const showSuccess = () => {
     }
   };
   document.addEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('click', (evt) => {
-    if (!evt.target.closest('.addedSuccessPopup')) {
+  const onDocumentClick = (evt) => {
+    document.removeEventListener('click', onDocumentClick);
+    if (evt.target === addedSuccessPopup) {
       removeSuccess();
     }
     evt.stopPropagation();
-  });
+  };
+  document.addEventListener('click', onDocumentClick);
 };
 
 export {showSuccess};
