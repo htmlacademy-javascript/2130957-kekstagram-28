@@ -45,7 +45,66 @@ const FIRST_NAMES = [
   'Наталья'
 ];
 const body = document.querySelector('body');
+const imgUploadForm = document.querySelector('.img-upload__form');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 
+const EFFECT_ARRAY = [
+  {
+    value: 'none',
+    style: 'none',
+    min: 0,
+    max: 0,
+    step: 0,
+    unit: ''
+  },
+  {
+    value: 'chrome',
+    style: 'grayscale',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unit: ''
+  },
+  {
+    value: 'sepia',
+    style: 'sepia',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unit: ''
+  },
+  {
+    value: 'marvin',
+    style: 'invert',
+    min: 0,
+    max: 100,
+    step: 1,
+    unit: '%'
+  },
+  {
+    value: 'phobos',
+    style: 'blur',
+    min: 0,
+    max: 3,
+    step: 0.1,
+    unit: 'px'
+  },
+  {
+    value: 'heat',
+    style: 'brightness',
+    min: 1,
+    max: 3,
+    step: 0.1,
+    unit: ''
+  },
+];
+
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
+
+const SCALE_STEP = 25;
+
+export {EFFECT_ARRAY};
+export {imgUploadPreview};
 export {MAX_COMMENTS};
 export {AVATAR_COUNT};
 export {MIN_LIKES};
@@ -56,3 +115,6 @@ export {DESCRIPTIONS};
 export {MESSAGES};
 export {FIRST_NAMES};
 export {body};
+export {imgUploadForm};
+export {sliderContainer};
+export {SCALE_STEP};

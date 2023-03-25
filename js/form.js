@@ -1,7 +1,11 @@
 import {isEscapeKey} from './data.js';
 import {body} from './consts.js';
+import {resetScale} from './scale.js';
+import './scale.js';
+import './effects.js';
+import {imgUploadForm} from './consts.js';
+import {resetEffect} from './effects.js';
 
-const imgUploadForm = document.querySelector('.img-upload__form');
 const inputUploadFile = document.querySelector('#upload-file');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCancel = imgUploadOverlay.querySelector('#upload-cancel');
@@ -38,6 +42,8 @@ const onUploadFile = () => {
 function closeUploadOverlay() {
   imgUploadForm.reset();
   pristine.reset();
+  resetScale();
+  resetEffect();
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -71,8 +77,12 @@ pristine.addValidator(
 
 //Функция, проверяющая правильность написания хэштега
 const checkSpellingHashtag = (value) => {
-  const hashTags = getHashTags(value);
-  return hashTags.every((hashTag) => CORRECT_HASHTAG.test(hashTag));
+  if (value !== '') {
+    const hashTags = getHashTags(value);
+    return hashTags.every((hashTag) => CORRECT_HASHTAG.test(hashTag));
+  } else {
+    return true;
+  }
 };
 
 pristine.addValidator(
