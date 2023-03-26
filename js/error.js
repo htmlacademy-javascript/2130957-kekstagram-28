@@ -32,5 +32,4 @@ const showError = () => {
   document.addEventListener('click', onDocumentClick);
 };
 
-
 export {showError};
