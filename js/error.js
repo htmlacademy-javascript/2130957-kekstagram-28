@@ -9,26 +9,28 @@ const showError = () => {
   errorFragment.appendChild(errorPopup);
   body.appendChild(errorFragment);
 
-  const successButton = document.querySelector('.error__button');
+  const errorButton = document.querySelector('.error__button');
   const addedErrorPopup = document.querySelector('.error');
-  const removeError = () => addedErrorPopup.remove();
-  successButton.addEventListener('click', removeError);
-  const onDocumentKeydown = (evt) => {
+  const removeError = () => {
+    addedErrorPopup.remove();
+    document.removeEventListener('keydown', onDocumentKeydown);
+  };
+  function onDocumentKeydown (evt) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       removeError();
-      document.removeEventListener('keydown', onDocumentKeydown);
     }
-  };
+  }
   document.addEventListener('keydown', onDocumentKeydown);
   const onDocumentClick = (evt) => {
-    document.removeEventListener('click', onDocumentClick);
-    if (evt.target === addedErrorPopup) {
+    if (evt.target === addedErrorPopup || evt.target === errorButton) {
       removeError();
+      document.removeEventListener('click', onDocumentClick);
     }
     evt.stopPropagation();
   };
   document.addEventListener('click', onDocumentClick);
 };
+
 
 export {showError};

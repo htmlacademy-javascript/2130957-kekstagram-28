@@ -11,20 +11,21 @@ const showSuccess = () => {
 
   const successButton = document.querySelector('.success__button');
   const addedSuccessPopup = document.querySelector('.success');
-  const removeSuccess = () => addedSuccessPopup.remove();
-  successButton.addEventListener('click', removeSuccess);
-  const onDocumentKeydown = (evt) => {
+  const removeSuccess = () => {
+    addedSuccessPopup.remove();
+    document.removeEventListener('keydown', onDocumentKeydown);
+  };
+  function onDocumentKeydown (evt) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       removeSuccess();
-      document.removeEventListener('keydown', onDocumentKeydown);
     }
-  };
+  }
   document.addEventListener('keydown', onDocumentKeydown);
   const onDocumentClick = (evt) => {
-    document.removeEventListener('click', onDocumentClick);
-    if (evt.target === addedSuccessPopup) {
+    if (evt.target === addedSuccessPopup || evt.target === successButton) {
       removeSuccess();
+      document.removeEventListener('click', onDocumentClick);
     }
     evt.stopPropagation();
   };
