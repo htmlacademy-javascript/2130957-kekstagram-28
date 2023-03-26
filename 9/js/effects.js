@@ -1,10 +1,12 @@
 import {imgUploadForm} from './consts.js';
 import {sliderContainer} from './consts.js';
-import {EFFECT_ARRAY} from './consts.js';
+import {EFFECTS} from './consts.js';
+import {CLASSES} from './consts.js';
 import {imgUploadPreview} from './consts.js';
 
 const effectLevelValue = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.effect-level__slider');
+
 sliderContainer.classList.add('hidden');
 
 noUiSlider.create(sliderElement, {
@@ -43,7 +45,8 @@ const switchSlider = (array) => {
 
 //Функция, удаляющая классы для изображения
 const removeClasses = () => {
-  imgUploadPreview.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none');
+  const currentClass = CLASSES.find((imgClass) => imgClass === imgUploadPreview.classList.toString());
+  imgUploadPreview.classList.remove(currentClass);
 };
 
 //Функция, меняющая эффекты
@@ -73,7 +76,7 @@ const onEffectChange = (evt) => {
     return;
   }
   const effect = effectParent.querySelector('.effects__radio');
-  const currentEffect = EFFECT_ARRAY.find(({value}) => (value) === effect.value);
+  const currentEffect = EFFECTS.find(({value}) => (value) === effect.value);
   switchSlider(currentEffect);
   changeEffect(currentEffect);
 };

@@ -82,9 +82,8 @@ const checkSpellingHashtag = (value) => {
   if (value !== '') {
     const hashTags = getHashTags(value);
     return hashTags.every((hashTag) => CORRECT_HASHTAG.test(hashTag));
-  } else {
-    return true;
   }
+  return true;
 };
 
 pristine.addValidator(
