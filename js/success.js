@@ -14,6 +14,7 @@ const showSuccess = () => {
   const removeSuccess = () => {
     addedSuccessPopup.remove();
     document.removeEventListener('keydown', onDocumentKeydown);
+    successButton.removeEventListener('click', removeSuccess);
   };
   function onDocumentKeydown (evt) {
     if (isEscapeKey(evt)) {
@@ -22,8 +23,9 @@ const showSuccess = () => {
     }
   }
   document.addEventListener('keydown', onDocumentKeydown);
+  successButton.addEventListener('click', removeSuccess);
   const onDocumentClick = (evt) => {
-    if (evt.target === addedSuccessPopup || evt.target === successButton) {
+    if (evt.target === addedSuccessPopup) {
       removeSuccess();
       document.removeEventListener('click', onDocumentClick);
     }

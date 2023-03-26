@@ -14,7 +14,9 @@ const showError = () => {
   const removeError = () => {
     addedErrorPopup.remove();
     document.removeEventListener('keydown', onDocumentKeydown);
+    errorButton.removeEventListener('click', removeError);
   };
+  errorButton.addEventListener('click', removeError);
   function onDocumentKeydown (evt) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
@@ -23,7 +25,7 @@ const showError = () => {
   }
   document.addEventListener('keydown', onDocumentKeydown);
   const onDocumentClick = (evt) => {
-    if (evt.target === addedErrorPopup || evt.target === errorButton) {
+    if (evt.target === addedErrorPopup) {
       removeError();
       document.removeEventListener('click', onDocumentClick);
     }
