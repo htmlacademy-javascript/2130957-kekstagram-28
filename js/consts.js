@@ -48,7 +48,7 @@ const body = document.querySelector('body');
 const imgUploadForm = document.querySelector('.img-upload__form');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 
-const EFFECT_ARRAY = [
+const EFFECTS = [
   {
     value: 'none',
     style: 'none',
@@ -99,11 +99,13 @@ const EFFECT_ARRAY = [
   },
 ];
 
+const CLASSES = ['effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none'];
+
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
 
 const SCALE_STEP = 25;
 
-export {EFFECT_ARRAY};
+export {EFFECTS};
 export {imgUploadPreview};
 export {MAX_COMMENTS};
 export {AVATAR_COUNT};
@@ -118,3 +120,4 @@ export {body};
 export {imgUploadForm};
 export {sliderContainer};
 export {SCALE_STEP};
+export {CLASSES};
