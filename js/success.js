@@ -1,37 +1,46 @@
 import {body} from './consts.js';
-import {isEscapeKey} from './data.js';
+import { isEscapeKey } from './data.js';
 
 const successFragment = document.createDocumentFragment();
+const successTemplate = document.querySelector('#success').content;
 
+//Функция, добавляющая попап Success на страницу
 const showSuccess = () => {
-  const successTemplate = document.querySelector('#success').content;
   const successPopup = successTemplate.cloneNode(true);
   successFragment.appendChild(successPopup);
   body.appendChild(successFragment);
-
   const successButton = document.querySelector('.success__button');
-  const addedSuccessPopup = document.querySelector('.success');
-  const removeSuccess = () => {
-    addedSuccessPopup.remove();
-    document.removeEventListener('keydown', onDocumentKeydown);
-    successButton.removeEventListener('click', removeSuccess);
-  };
-  function onDocumentKeydown (evt) {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      removeSuccess();
-    }
-  }
-  document.addEventListener('keydown', onDocumentKeydown);
-  successButton.addEventListener('click', removeSuccess);
-  const onDocumentClick = (evt) => {
-    if (evt.target === addedSuccessPopup) {
-      removeSuccess();
-      document.removeEventListener('click', onDocumentClick);
-    }
-    evt.stopPropagation();
-  };
+  document.addEventListener('keydown', onDocumentKeydownPopup);
   document.addEventListener('click', onDocumentClick);
+  successButton.addEventListener('click', removeSuccess);
 };
+
+//Функция, получающая переменную с попапом
+const getSuccessPopup = () => document.querySelector('.success');
+
+//Функция, удаляющая попап
+function removeSuccess () {
+  const addedSuccessPopup = getSuccessPopup();
+  addedSuccessPopup.remove();
+  document.removeEventListener('click', onDocumentClick);
+  document.removeEventListener('click', removeSuccess);
+  document.removeEventListener('keydown', onDocumentKeydownPopup);
+}
+
+//Функция, закрывающая попап по клику на произвольную область экрана за пределами
+function onDocumentClick(evt) {
+  const addedSuccessPopup = getSuccessPopup();
+  if (evt.target === addedSuccessPopup) {
+    removeSuccess();
+  }
+}
+
+//Функция, закрывающая попап по нажатию кнопки Esc
+function onDocumentKeydownPopup(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    removeSuccess();
+  }
+}
 
 export {showSuccess};
