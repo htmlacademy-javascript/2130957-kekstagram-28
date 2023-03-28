@@ -1,5 +1,5 @@
 import {body} from './consts.js';
-import { isEscapeKey } from './data.js';
+import { isEscapeKey } from './util.js';
 import {closeUploadOverlay} from './user-modal.js';
 
 const successFragment = document.createDocumentFragment();

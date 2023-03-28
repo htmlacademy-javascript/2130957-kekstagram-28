@@ -24,25 +24,4 @@ const getData = () => load(Route.GET_DATA);
 
 const sendData = (body) => load(Route.SEND_DATA, Method.POST, body);
 
-
-// Для тестирования ошибок (нужно расскоментить и закомментить код выше)
-// const getData = () => fetch(
-//   'https://28.javascript.pages.academ/kekstagram/data')
-//   .then((response) => response.json());
-
-// const sendData = (body) => fetch(
-//   'https://28.javascript.pages.academ/kekstagram',
-//   {
-//     method: 'POST',
-//     body,
-//   })
-//   .then((response) => {
-//     if (!response.ok) {
-//       throw new Error();
-//     }
-//   })
-//   .catch(() => {
-//     throw new Error();
-//   });
-
 export {getData, sendData};

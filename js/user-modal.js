@@ -1,4 +1,4 @@
-import {isEscapeKey} from './data.js';
+import {isEscapeKey} from './util.js';
 import {body, imgUploadForm} from './consts.js';
 import {resetScale} from './scale.js';
 import {resetEffect} from './effects.js';

@@ -1,4 +1,4 @@
-import {isEscapeKey} from './data.js';
+import {isEscapeKey} from './util.js';
 
 const body = document.querySelector('body');
 const pictures = document.querySelector('.pictures');
@@ -37,8 +37,9 @@ function renderComments (commentsArray, loadingComments) {
   const newComments = commentsArray.slice(loadingComments - 5, commentsToShow);
   for (let i = 0; i < newComments.length; i++) {
     const commentElement = commentTemplate.cloneNode(true);
-    commentElement.querySelector('.social__picture').src = newComments[i].avatar;
-    commentElement.querySelector('.social__text').textContent = newComments[i].message;
+    const {avatar, message} = newComments[i];
+    commentElement.querySelector('.social__picture').src = avatar;
+    commentElement.querySelector('.social__text').textContent = message;
     similarCommentFragment.appendChild(commentElement);
   }
   socialCommentCount.textContent = `${commentsToShow} из ${commentsArray.length} комментариев`;
