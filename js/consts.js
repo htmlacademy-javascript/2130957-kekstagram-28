@@ -54,18 +54,16 @@ const EFFECTS = [
 ];
 
 const ALERT_SHOW_TIME = 5000;
+const MAX_AMOUNT_HASHTAGS = 5;
+const MAX_AMOUNT_COMMENT = 140;
+const CORRECT_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+const SCALE_STEP = 25;
+const MIN_SCALE_STEP = 25;
+const MAX_SCALE_STEP = 100;
 
 const CLASSES = ['effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none'];
 
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
 
-const SCALE_STEP = 25;
 
-export {EFFECTS};
-export {imgUploadPreview};
-export {body};
-export {imgUploadForm};
-export {sliderContainer};
-export {SCALE_STEP};
-export {CLASSES};
-export {ALERT_SHOW_TIME};
+export {EFFECTS, imgUploadPreview, body, imgUploadForm, sliderContainer, SCALE_STEP, CLASSES, ALERT_SHOW_TIME, MAX_AMOUNT_HASHTAGS, MAX_AMOUNT_COMMENT, CORRECT_HASHTAG, MIN_SCALE_STEP, MAX_SCALE_STEP};

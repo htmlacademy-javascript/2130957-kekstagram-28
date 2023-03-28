@@ -2,9 +2,7 @@ import {isEscapeKey} from './util.js';
 import {body, imgUploadForm} from './consts.js';
 import {resetScale} from './scale.js';
 import {resetEffect} from './effects.js';
-import {textHashtags} from './user-form.js';
-import {textDescription} from './user-form.js';
-import {pristine} from './user-form.js';
+import {textDescription, textHashtags, pristine} from './user-form.js';
 
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const inputUploadFile = document.querySelector('#upload-file');

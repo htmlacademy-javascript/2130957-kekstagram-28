@@ -1,24 +1,16 @@
-import {ALERT_SHOW_TIME} from './consts.js';
-
+import {ALERT_SHOW_TIME, body} from './consts.js';
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const alertFragment = document.createDocumentFragment();
+const alertTemplate = document.querySelector('#error-server').content;
 const showAlert = () => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = '100';
-  alertContainer.style.position = 'absolute';
-  alertContainer.style.left = '0';
-  alertContainer.style.top = '0';
-  alertContainer.style.right = '0';
-  alertContainer.style.padding = '15px';
-  alertContainer.style.fontSize = '24px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.textShadow = '1px 0 0 #fff';
-  alertContainer.style.backgroundColor = '#f96464';
-  alertContainer.textContent = 'Не удалось загрузить данные. Попробуйте обновить страницу';
-  document.body.append(alertContainer);
+  const alertMessage = alertTemplate.cloneNode(true);
+  alertFragment.appendChild(alertMessage);
+  body.appendChild(alertFragment);
 
   setTimeout(() => {
+    const alertContainer = document.querySelector('.error-server');
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };

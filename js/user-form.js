@@ -1,12 +1,8 @@
 import './scale.js';
 import './effects.js';
-import {imgUploadForm} from './consts.js';
+import {imgUploadForm, MAX_AMOUNT_HASHTAGS, MAX_AMOUNT_COMMENT, CORRECT_HASHTAG} from './consts.js';
 import {showError} from './error.js';
 import {sendData} from './api.js';
-
-const MAX_AMOUNT_HASHTAGS = 5;
-const MAX_AMOUNT_COMMENT = 140;
-const CORRECT_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const SubmitButtonText = {
   DEFAULT: 'опубликовать',
@@ -41,7 +37,7 @@ const countHashTags = (value) => {
 pristine.addValidator(
   textHashtags,
   countHashTags,
-  'Нельзя добавить больше 5 хэштегов'
+  'Нельзя указать больше пяти хэш-тегов'
 );
 
 //Функция, проверяющая правильность написания хэштега
@@ -56,7 +52,7 @@ const checkSpellingHashtag = (value) => {
 pristine.addValidator(
   textHashtags,
   checkSpellingHashtag,
-  'Хэштег должен начинаться с # и не может содержать пробелы, спецсимволы, символы пунктуации и смайлы'
+  'Хэштег должен начинаться с # и не может содержать пробелы, спецсимволы и смайлы. Максимальная длина 20 символов'
 );
 
 //Функция на проверку дубликатов хэштегов

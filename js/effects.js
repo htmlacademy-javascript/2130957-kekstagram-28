@@ -1,8 +1,4 @@
-import {imgUploadForm} from './consts.js';
-import {sliderContainer} from './consts.js';
-import {EFFECTS} from './consts.js';
-import {CLASSES} from './consts.js';
-import {imgUploadPreview} from './consts.js';
+import {imgUploadForm, sliderContainer, EFFECTS, CLASSES, imgUploadPreview} from './consts.js';
 
 const effectLevelValue = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.effect-level__slider');
