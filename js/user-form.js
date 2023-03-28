@@ -7,6 +7,12 @@ import {sendData} from './api.js';
 const MAX_AMOUNT_HASHTAGS = 5;
 const MAX_AMOUNT_COMMENT = 140;
 const CORRECT_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+
+const SubmitButtonText = {
+  DEFAULT: 'опубликовать',
+  SENDING: 'Публикую...'
+};
+const uploadSubmit = document.querySelector('#upload-submit');
 const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
 
@@ -66,18 +72,30 @@ pristine.addValidator(
   'Хэштеги не должны повторяться'
 );
 
+const blockSubmitButton = () => {
+  uploadSubmit.disabled = true;
+  uploadSubmit.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  uploadSubmit.disabled = false;
+  uploadSubmit.textContent = SubmitButtonText.DEFAULT;
+};
+
 const setUserFormSubmit = (onSuccess) => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
+      blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
         .catch(
           (err) => {
             showError(err);
           }
-        );
+        )
+        .finally(unblockSubmitButton);
     }
   });
 };

@@ -1,7 +1,3 @@
-import './miniature.js';
-import './popup.js';
-import './user-modal.js';
-import './user-form.js';
 import './upload-file.js';
 import {getData} from './api.js';
 import {fillPictureContainer} from './miniature.js';

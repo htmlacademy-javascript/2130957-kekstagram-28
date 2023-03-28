@@ -7,7 +7,6 @@ import {textDescription} from './user-form.js';
 import {pristine} from './user-form.js';
 
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-
 const inputUploadFile = document.querySelector('#upload-file');
 const uploadCancel = imgUploadOverlay.querySelector('#upload-cancel');
 //Закрытие модального окна нажатием Esc
