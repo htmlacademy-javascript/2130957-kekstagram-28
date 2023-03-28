@@ -1,59 +1,20 @@
-import {isEscapeKey} from './data.js';
-import {body} from './consts.js';
-import {resetScale} from './scale.js';
 import './scale.js';
 import './effects.js';
 import {imgUploadForm} from './consts.js';
-import {resetEffect} from './effects.js';
-import {showSuccess} from './success.js';
 import {showError} from './error.js';
+import {sendData} from './api.js';
 
-const inputUploadFile = document.querySelector('#upload-file');
-const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const uploadCancel = imgUploadOverlay.querySelector('#upload-cancel');
-const textHashtags = imgUploadOverlay.querySelector('.text__hashtags');
-const textDescription = imgUploadOverlay.querySelector('.text__description');
 const MAX_AMOUNT_HASHTAGS = 5;
 const MAX_AMOUNT_COMMENT = 140;
 const CORRECT_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+const textHashtags = document.querySelector('.text__hashtags');
+const textDescription = document.querySelector('.text__description');
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'text__error'
 });
-
-//Закрытие модального окна нажатием Esc
-const onDocumentKeydown = (evt) => {
-  if (evt.target === textHashtags || evt.target === textDescription) {
-    evt.stopPropagation();
-  } else {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      closeUploadOverlay();
-    }
-  }
-};
-//Функция, открывающая модальное окно
-const onUploadFile = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-};
-//Функция, закрывающая модальное окно
-function closeUploadOverlay() {
-  imgUploadForm.reset();
-  pristine.reset();
-  resetScale();
-  resetEffect();
-  imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
-}
-//Событие, отслеживающее загрузку изображения
-inputUploadFile.addEventListener('change', onUploadFile);
-//Закрытие модального окна по клику
-uploadCancel.addEventListener('click', closeUploadOverlay);
 
 //Функция, проверяющая лимит по символам у комментария
 const validateComment = (value) => value.length <= MAX_AMOUNT_COMMENT;
@@ -105,12 +66,23 @@ pristine.addValidator(
   'Хэштеги не должны повторяться'
 );
 
-imgUploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    showSuccess();
-    closeUploadOverlay();
-  } else {
-    showError();
-  }
-});
+const setUserFormSubmit = (onSuccess) => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch(
+          (err) => {
+            showError(err);
+          }
+        );
+    }
+  });
+};
+
+export {textHashtags};
+export {textDescription};
+export {pristine};
+export {setUserFormSubmit};

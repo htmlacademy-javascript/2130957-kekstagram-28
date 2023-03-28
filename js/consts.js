@@ -99,6 +99,8 @@ const EFFECTS = [
   },
 ];
 
+const ALERT_SHOW_TIME = 5000;
+
 const CLASSES = ['effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat', 'effects__preview--none'];
 
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
@@ -121,3 +123,4 @@ export {imgUploadForm};
 export {sliderContainer};
 export {SCALE_STEP};
 export {CLASSES};
+export {ALERT_SHOW_TIME};

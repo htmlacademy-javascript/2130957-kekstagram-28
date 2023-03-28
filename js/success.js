@@ -1,11 +1,13 @@
 import {body} from './consts.js';
 import { isEscapeKey } from './data.js';
+import {closeUploadOverlay} from './user-modal.js';
 
 const successFragment = document.createDocumentFragment();
 const successTemplate = document.querySelector('#success').content;
 
 //Функция, добавляющая попап Success на страницу
 const showSuccess = () => {
+  closeUploadOverlay();
   const successPopup = successTemplate.cloneNode(true);
   successFragment.appendChild(successPopup);
   body.appendChild(successFragment);

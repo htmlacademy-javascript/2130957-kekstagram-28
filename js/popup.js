@@ -1,5 +1,4 @@
 import {isEscapeKey} from './data.js';
-import {picturePosts} from './miniature.js';
 
 const body = document.querySelector('body');
 const pictures = document.querySelector('.pictures');
@@ -68,22 +67,23 @@ const onDocumentKeydown = (evt) => {
 };
 
 //Функция открытие попапа
-const onPictureClick = (evt) => {
-  const target = evt.target;
-  const picture = target.closest(targetParent);
-  if (!picture) {
-    return;
-  }
-  evt.preventDefault();
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-  const currentPost = picturePosts.find(({id}) => (id).toString() === picture.dataset.id);
-  renderBigPicture(currentPost);
+const getPictureClick = (array) => {
+  const onPictureClick = (evt) => {
+    const target = evt.target;
+    const picture = target.closest(targetParent);
+    if (!picture) {
+      return;
+    }
+    evt.preventDefault();
+    bigPicture.classList.remove('hidden');
+    body.classList.add('modal-open');
+    document.addEventListener('keydown', onDocumentKeydown);
+    const currentPost = array.find(({id}) => (id).toString() === picture.dataset.id);
+    renderBigPicture(currentPost);
+  };
+  //Событие по клику, запускает попап
+  pictures.addEventListener('click', onPictureClick);
 };
-
-//Событие по клику, запускает попап
-pictures.addEventListener('click', onPictureClick);
 
 //Функция закрытия попапа
 function closeBigPicture() {
@@ -96,3 +96,5 @@ function closeBigPicture() {
 cancel.addEventListener('click', () => {
   closeBigPicture();
 });
+
+export {getPictureClick};

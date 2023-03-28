@@ -10,6 +10,7 @@ import {PHOTOS_COUNT} from './consts.js';
 import {DESCRIPTIONS} from './consts.js';
 import {MESSAGES} from './consts.js';
 import {FIRST_NAMES} from './consts.js';
+import {ALERT_SHOW_TIME} from './consts.js';
 
 const generatePhotoId = createRandomIdFromRangeGenerator(1, PHOTOS_COUNT);
 const generateUrl = createRandomIdFromRangeGenerator(1, PHOTOS_COUNT);
@@ -34,5 +35,28 @@ const createPicturePost = () => ({
 const createPicturePosts = () => Array.from({length: PHOTOS_COUNT}, createPicturePost);
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const showAlert = () => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '15px';
+  alertContainer.style.fontSize = '24px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.textShadow = '1px 0 0 #fff';
+  alertContainer.style.backgroundColor = '#f96464';
+
+  alertContainer.textContent = 'Не удалось загрузить данные. Попробуйте обновить страницу';
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
 export {createPicturePosts};
 export {isEscapeKey};
+export {showAlert};
