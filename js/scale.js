@@ -1,5 +1,4 @@
-import {imgUploadPreview} from './consts.js';
-import {SCALE_STEP} from './consts.js';
+import {imgUploadPreview, MIN_SCALE_STEP, SCALE_STEP, MAX_SCALE_STEP} from './consts.js';
 
 const scaleControlValue = document.querySelector('.scale__control--value');
 const scaleControlSmaller = document.querySelector('.scale__control--smaller');
@@ -16,7 +15,7 @@ const scaleImage = () => {
 };
 //Событие по клику, уменьшающее масштаб
 scaleControlSmaller.addEventListener('click', () => {
-  if (defaultControlValue > 25) {
+  if (defaultControlValue > MIN_SCALE_STEP) {
     defaultControlValue -= SCALE_STEP;
     scaleImage();
   }
@@ -24,7 +23,7 @@ scaleControlSmaller.addEventListener('click', () => {
 
 //Событие по клику, увеличивающее масштаб
 scaleControlBigger.addEventListener('click', () => {
-  if (defaultControlValue < 100) {
+  if (defaultControlValue < MAX_SCALE_STEP) {
     defaultControlValue += SCALE_STEP;
     scaleImage();
   }

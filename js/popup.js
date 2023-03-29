@@ -1,5 +1,4 @@
-import {isEscapeKey} from './data.js';
-import {picturePosts} from './miniature.js';
+import {isEscapeKey} from './util.js';
 
 const body = document.querySelector('body');
 const pictures = document.querySelector('.pictures');
@@ -38,8 +37,9 @@ function renderComments (commentsArray, loadingComments) {
   const newComments = commentsArray.slice(loadingComments - 5, commentsToShow);
   for (let i = 0; i < newComments.length; i++) {
     const commentElement = commentTemplate.cloneNode(true);
-    commentElement.querySelector('.social__picture').src = newComments[i].avatar;
-    commentElement.querySelector('.social__text').textContent = newComments[i].message;
+    const {avatar, message} = newComments[i];
+    commentElement.querySelector('.social__picture').src = avatar;
+    commentElement.querySelector('.social__text').textContent = message;
     similarCommentFragment.appendChild(commentElement);
   }
   socialCommentCount.textContent = `${commentsToShow} из ${commentsArray.length} комментариев`;
@@ -68,22 +68,23 @@ const onDocumentKeydown = (evt) => {
 };
 
 //Функция открытие попапа
-const onPictureClick = (evt) => {
-  const target = evt.target;
-  const picture = target.closest(targetParent);
-  if (!picture) {
-    return;
-  }
-  evt.preventDefault();
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-  const currentPost = picturePosts.find(({id}) => (id).toString() === picture.dataset.id);
-  renderBigPicture(currentPost);
+const getPictureClick = (array) => {
+  const onPictureClick = (evt) => {
+    const target = evt.target;
+    const picture = target.closest(targetParent);
+    if (!picture) {
+      return;
+    }
+    evt.preventDefault();
+    bigPicture.classList.remove('hidden');
+    body.classList.add('modal-open');
+    document.addEventListener('keydown', onDocumentKeydown);
+    const currentPost = array.find(({id}) => (id).toString() === picture.dataset.id);
+    renderBigPicture(currentPost);
+  };
+  //Событие по клику, запускает попап
+  pictures.addEventListener('click', onPictureClick);
 };
-
-//Событие по клику, запускает попап
-pictures.addEventListener('click', onPictureClick);
 
 //Функция закрытия попапа
 function closeBigPicture() {
@@ -96,3 +97,5 @@ function closeBigPicture() {
 cancel.addEventListener('click', () => {
   closeBigPicture();
 });
+
+export {getPictureClick};

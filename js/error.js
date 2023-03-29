@@ -1,5 +1,5 @@
 import {body} from './consts.js';
-import { isEscapeKey } from './data.js';
+import {isEscapeKey} from './util.js';
 
 const errorFragment = document.createDocumentFragment();
 const errorTemplate = document.querySelector('#error').content;

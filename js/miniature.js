@@ -1,20 +1,19 @@
-import {createPicturePosts} from './data.js';
-
 const pictureContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content;
-const picturePosts = createPicturePosts();
+
 const similarPictureFragment = document.createDocumentFragment();
 
-picturePosts.forEach((picture) => {
-  const pictureElement = pictureTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture').dataset.id = picture.id;
-  pictureElement.querySelector('.picture__img').src = picture.url;
-  pictureElement.querySelector('.picture__likes').textContent = picture.likes;
-  pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
-  similarPictureFragment.appendChild(pictureElement);
-});
+const fillPictureContainer = (array) => {
+  array.forEach((picture) => {
+    const {id, url, likes, comments} = picture;
+    const pictureElement = pictureTemplate.cloneNode(true);
+    pictureElement.querySelector('.picture').dataset.id = id;
+    pictureElement.querySelector('.picture__img').src = url;
+    pictureElement.querySelector('.picture__likes').textContent = likes;
+    pictureElement.querySelector('.picture__comments').textContent = comments.length;
+    similarPictureFragment.appendChild(pictureElement);
+  });
+  pictureContainer.appendChild(similarPictureFragment);
+};
 
-const fillPictureContainer = () => pictureContainer.appendChild(similarPictureFragment);
-fillPictureContainer();
-
-export {picturePosts};
+export {fillPictureContainer};
