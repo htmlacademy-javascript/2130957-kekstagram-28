@@ -1,5 +1,6 @@
 import {fillPictureContainer} from './miniature.js';
-import {MAX_RANDOM_POSTS} from './consts.js';
+import {MAX_RANDOM_POSTS, RERENDER_DELAY} from './consts.js';
+import {debounce} from './util.js';
 
 const imgFilters = document.querySelector('.img-filters');
 const imgFiltersButton = document.querySelectorAll('.img-filters__button');
@@ -31,33 +32,45 @@ const showImgFilter = () => {
 };
 
 const clearFilter = (button) => {
-  const pictures = document.querySelectorAll('.picture');
   imgFiltersButton.forEach((element) => element.classList.remove('img-filters__button--active'));
   button.classList.add('img-filters__button--active');
+};
+
+const removePictures = () => {
+  const pictures = document.querySelectorAll('.picture');
   pictures.forEach((picture) => picture.remove());
 };
 
-const renderPostsByComments = (array) => {
-  imgFiltersForm.addEventListener('click', (evt) => {
-    if (!evt.target.matches('.img-filters__button')) {
+const setFilterClick = (array) => {
+  imgFiltersForm.addEventListener('click', onFilterClick);
+  function onFilterClick (evt) {
+    imgFiltersForm.removeEventListener('click', onFilterClick);
+    const target = evt.target.closest('.img-filters__button');
+    if (!target) {
       return;
     }
-    clearFilter(evt.target);
-    const {id} = evt.target;
-    switch (id) {
-      case 'filter-default':
-        fillPictureContainer(array, sortByDefault);
-        break;
-      case 'filter-discussed':
-        fillPictureContainer(array, sortByComments);
-        break;
-      case 'filter-random':
-        fillPictureContainer(array, sortByRandom);
-        break;
-      default:
-        fillPictureContainer(array, sortByDefault);
-    }
-  });
+    clearFilter(target);
+    const {id} = target;
+    const renderPosts = (posts) => {
+      removePictures();
+      switch (id) {
+        case 'filter-default':
+          fillPictureContainer(posts, sortByDefault);
+          break;
+        case 'filter-discussed':
+          fillPictureContainer(posts, sortByComments);
+          break;
+        case 'filter-random':
+          fillPictureContainer(posts, sortByRandom);
+          break;
+        default:
+          fillPictureContainer(posts, sortByDefault);
+      }
+      imgFiltersForm.addEventListener('click', onFilterClick);
+    };
+    const debouncedRenderPosts = debounce(() => renderPosts(array), RERENDER_DELAY);
+    debouncedRenderPosts();
+  }
 };
 
-export {sortByDefault, showImgFilter, renderPostsByComments};
+export {setFilterClick, sortByDefault, showImgFilter};
