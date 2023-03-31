@@ -1,5 +1,5 @@
 import {isEscapeKey} from './util.js';
-import {body, imgUploadForm} from './consts.js';
+import {body, imgUploadForm, imgUploadPreview} from './consts.js';
 import {resetScale} from './scale.js';
 import {resetEffect} from './effects.js';
 import {textDescription, textHashtags, pristine} from './user-form.js';
@@ -24,12 +24,18 @@ const onUploadFile = () => {
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
+
+const resetPreviewImage = () => {
+  imgUploadPreview.src = 'img/upload-default-image.jpg';
+};
+
 //Функция, закрывающая модальное окно
 function closeUploadOverlay() {
   imgUploadForm.reset();
   pristine.reset();
   resetScale();
   resetEffect();
+  resetPreviewImage();
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);

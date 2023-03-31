@@ -1,13 +1,16 @@
 import {imgUploadPreview} from './consts.js';
 
 const fileInput = document.querySelector('#upload-file');
-fileInput.addEventListener('change', function() {
-  const file = this.files[0];
-  const reader = new FileReader();
 
-  reader.addEventListener('load', () => {
-    imgUploadPreview.src = reader.result;
-  });
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-  reader.readAsDataURL(file);
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    imgUploadPreview.src = URL.createObjectURL(file);
+  }
 });
