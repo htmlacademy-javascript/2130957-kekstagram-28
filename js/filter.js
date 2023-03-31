@@ -11,7 +11,7 @@ const sortByRandom = (array) => {
   return array
     .slice()
     .sort(comparePostsRandom)
-    .slice(0,MAX_RANDOM_POSTS);
+    .slice(0, MAX_RANDOM_POSTS);
 };
 
 const sortByComments = (array) => {
@@ -20,6 +20,7 @@ const sortByComments = (array) => {
     .slice()
     .sort(comparePostsComments);
 };
+
 const sortByDefault = (array) => {
   const comparePostsDefault = (postA, postB) => postA.id - postB.id;
   return array
@@ -32,7 +33,9 @@ const showImgFilter = () => {
 };
 
 const clearFilter = (button) => {
-  imgFiltersButton.forEach((element) => element.classList.remove('img-filters__button--active'));
+  imgFiltersButton.forEach((element) =>
+    element.classList.remove('img-filters__button--active')
+  );
   button.classList.add('img-filters__button--active');
 };
 
@@ -41,36 +44,39 @@ const removePictures = () => {
   pictures.forEach((picture) => picture.remove());
 };
 
-const setFilterClick = (array) => {
-  imgFiltersForm.addEventListener('click', onFilterClick);
-  function onFilterClick (evt) {
-    imgFiltersForm.removeEventListener('click', onFilterClick);
-    const target = evt.target.closest('.img-filters__button');
-    if (!target) {
-      return;
-    }
-    clearFilter(target);
-    const {id} = target;
-    const renderPosts = (posts) => {
-      removePictures();
-      switch (id) {
-        case 'filter-default':
-          fillPictureContainer(posts, sortByDefault);
-          break;
-        case 'filter-discussed':
-          fillPictureContainer(posts, sortByComments);
-          break;
-        case 'filter-random':
-          fillPictureContainer(posts, sortByRandom);
-          break;
-        default:
-          fillPictureContainer(posts, sortByDefault);
-      }
-      imgFiltersForm.addEventListener('click', onFilterClick);
-    };
-    const debouncedRenderPosts = debounce(() => renderPosts(array), RERENDER_DELAY);
-    debouncedRenderPosts();
+const renderPosts = (array, id) => {
+  removePictures();
+  switch (id) {
+    case 'filter-default':
+      fillPictureContainer(array, sortByDefault);
+      break;
+    case 'filter-discussed':
+      fillPictureContainer(array, sortByComments);
+      break;
+    case 'filter-random':
+      fillPictureContainer(array, sortByRandom);
+      break;
+    default:
+      fillPictureContainer(array, sortByDefault);
   }
+};
+
+const debouncedRenderPosts = debounce((array, id) => renderPosts(array, id), RERENDER_DELAY);
+
+const onFilterClick = (array, evt) => {
+  const target = evt.target.closest('.img-filters__button');
+  if (!target) {
+    return;
+  }
+  clearFilter(target);
+  const id = target.id;
+  debouncedRenderPosts(array, id);
+};
+
+const setFilterClick = (array) => {
+  imgFiltersForm.addEventListener('click', (evt) => {
+    onFilterClick(array, evt);
+  });
 };
 
 export {setFilterClick, sortByDefault, showImgFilter};
